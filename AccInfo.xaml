@@ -1,0 +1,254 @@
+﻿<Window x:Class="PassManager.AccInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:local="clr-namespace:PassManager"
+        mc:Ignorable="d"
+        Title="Информация"
+        Height="500" 
+        Width="350"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+    <ScrollViewer>
+        <StackPanel Margin="15,0,5,0">
+            <StackPanel Orientation="Horizontal" Margin="0,10">
+                <Border
+                    BorderBrush="Gray" 
+                    BorderThickness="0,0,0,1" 
+                    Padding="0" 
+                    Margin="0" 
+                    Width="300">
+                    <Grid Width="290">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label 
+                        x:Name="label" 
+                        Content="Код:" 
+                        Margin="0" 
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center" 
+                        FontSize="14"
+                    />
+                        <TextBox 
+                        x:Name="textBoxCode" 
+                        Margin="10,0" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        TextWrapping="Wrap"
+                        IsReadOnly="True"
+                        FontSize="14"
+                        materialDesign:TextFieldAssist.UnderlineBrush="Transparent"
+                        Grid.Column="1" BorderThickness="0"
+                    />
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10">
+                <Border 
+                    BorderBrush="Gray" 
+                    BorderThickness="0,0,0,1" 
+                    Padding="0" 
+                    Margin="0" Width="300">
+                    <Grid Width="290">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label 
+                        x:Name="label1" 
+                        Content="Заголовок:" 
+                        Margin="0" 
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center" 
+                        FontSize="14"
+                    />
+                        <TextBox 
+                        x:Name="textBoxTitle" 
+                        Margin="10,0" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        TextWrapping="Wrap"
+                        IsReadOnly="True"
+                        FontSize="14"
+                        materialDesign:TextFieldAssist.UnderlineBrush="Transparent"
+                        Grid.Column="1" BorderThickness="0"
+                    />
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10">
+                <Border 
+                    BorderBrush="Gray" 
+                    BorderThickness="0,0,0,1" 
+                    Padding="0" 
+                    Margin="0" Width="300">
+                    <Grid Width="290">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label 
+                        x:Name="label2" 
+                        Content="Ссылка:" 
+                        Margin="0" 
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center" 
+                        FontSize="14"
+                    />
+                        <TextBlock
+                        x:Name="textBlockLink" 
+                        Margin="10,0" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        TextWrapping="Wrap"
+                        FontSize="14"
+                        materialDesign:TextFieldAssist.UnderlineBrush="Transparent"
+                        Grid.Column="1">
+                            <Hyperlink 
+                                x:Name="hyperLinkText" 
+                                NavigateUri="{Binding Data.link, UpdateSourceTrigger=PropertyChanged}"
+                                RequestNavigate="Hyperlink_RequestNavigate">
+                            </Hyperlink>
+                        </TextBlock>
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10">
+                <Border 
+                    BorderBrush="Gray" 
+                    BorderThickness="0,0,0,1" 
+                    Padding="0" 
+                    Margin="0" Width="300">
+                    <Grid Width="290">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label 
+                        x:Name="label3" 
+                        Content="Логин(ник):" 
+                        Margin="0" 
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center" 
+                        FontSize="14"
+                    />
+                        <TextBox 
+                        x:Name="textBoxLogin" 
+                        Margin="10,0" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        TextWrapping="Wrap"
+                        IsReadOnly="True"
+                        FontSize="14"
+                        materialDesign:TextFieldAssist.UnderlineBrush="Transparent"
+                        Grid.Column="1" BorderThickness="0"
+                    />
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10">
+                <Border 
+                    BorderBrush="Gray" 
+                    BorderThickness="0,0,0,1" 
+                    Padding="0" 
+                    Margin="0" Width="300">
+                    <Grid Width="290">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label 
+                        x:Name="label4" 
+                        Content="Эл.почта" 
+                        Margin="0" 
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center" 
+                        FontSize="14"
+                    />
+                        <TextBox 
+                        x:Name="textBoxEmail" 
+                        Margin="10,0" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        TextWrapping="Wrap"
+                        IsReadOnly="True"
+                        FontSize="14"
+                        materialDesign:TextFieldAssist.UnderlineBrush="Transparent"
+                        Grid.Column="1" BorderThickness="0"
+                    />
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10">
+                <Border 
+                    BorderBrush="Gray" 
+                    BorderThickness="0,0,0,1" 
+                    Padding="0" 
+                    Margin="0" Width="300">
+                    <Grid Width="290">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label 
+                        x:Name="label5" 
+                        Content="Пароль:" 
+                        Margin="0" 
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center" 
+                        FontSize="14"
+                    />
+                        <TextBox 
+                        x:Name="textBoxPass" 
+                        Margin="10,0" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        TextWrapping="Wrap"
+                        IsReadOnly="True"
+                        FontSize="14"
+                        materialDesign:TextFieldAssist.UnderlineBrush="Transparent"
+                        Grid.Column="1" BorderThickness="0"
+                    />
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10">
+                <Border 
+                    BorderBrush="Gray" 
+                    BorderThickness="0,0,0,1" 
+                    Padding="0" 
+                    Margin="0" Width="300">
+                    <Grid Width="290">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label 
+                        x:Name="label6" 
+                        Content="Описание:" 
+                        Margin="0" 
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center" 
+                        FontSize="14"
+                    />
+                        <TextBox 
+                        x:Name="textBoxDesc" 
+                        Margin="10,0" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        TextWrapping="Wrap"
+                        IsReadOnly="True"
+                        FontSize="14"
+                        materialDesign:TextFieldAssist.UnderlineBrush="Transparent"
+                        Grid.Column="1" BorderThickness="0"
+                    />
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Window>

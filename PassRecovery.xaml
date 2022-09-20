@@ -1,0 +1,259 @@
+﻿<Window x:Class="PassManager.PassRecovery"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PassManager"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        mc:Ignorable="d"
+        Title="Восстановление пароля"
+        Height="714" 
+        Width="400" 
+        FontSize="14" 
+        HorizontalAlignment="Center" 
+        VerticalAlignment="Center"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+    <Grid
+        x:Name="layoutGrid" 
+        HorizontalAlignment="Center" 
+        Height="700" 
+        VerticalAlignment="Center" 
+        Width="400" 
+        Background="LightGray">
+        <Border 
+            BorderBrush="Black" 
+            Background="White"
+            BorderThickness="1" 
+            HorizontalAlignment="Center" 
+            Height="630" 
+            Margin="0" 
+            VerticalAlignment="Center" 
+            Width="350"
+            CornerRadius="30">
+            <Border.Effect>
+                <DropShadowEffect 
+                    Color="#FF0078D7" 
+                    Direction="310" 
+                    ShadowDepth="15" 
+                    Opacity="0.15"
+                />
+            </Border.Effect>
+            <Label 
+                x:Name="labelReg" 
+                Content="Восстановление &#xA;        пароля" 
+                HorizontalAlignment="Center" 
+                Margin="0,20,0,0" 
+                VerticalAlignment="Top" 
+                FontSize="30" 
+                Width="230"
+                VerticalContentAlignment="Center"
+                Style="{StaticResource MaterialDesignLabel}">
+                <Label.Effect>
+                    <DropShadowEffect 
+                    Color="Black" 
+                    Direction="310" 
+                    ShadowDepth="3" 
+                    Opacity="0.3"
+                />
+                </Label.Effect>
+            </Label>
+        </Border>
+        <Grid 
+            Margin="60,180,0,0" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top">
+            <Grid 
+                x:Name="GridEmail"
+                Margin="0,0,0,50">
+                <Label
+                    x:Name="label2" 
+                    Content="Введите электронную почту:" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top"
+                />
+                <Grid Margin="0,30,0,0">
+                    <TextBox 
+                        xmlns:materialDesign.UnderlineBrush="Blue" 
+                        x:Name="textBoxLogMail" 
+                        BorderBrush="#0078d7"
+                        HorizontalAlignment="Left"
+                        TextWrapping="Wrap" 
+                        VerticalAlignment="Top" 
+                        Padding="25,0,0,0" 
+                        FontSize="18"
+                        Width="250"
+                        BorderThickness="0,0,0,1"
+                        ToolTip="Электронная почта для восстановления пароля"
+                        Style="{StaticResource MaterialDesignTextBox}"
+                    />
+                    <Image
+                        x:Name="image1" 
+                        HorizontalAlignment="Left" 
+                        Height="17" 
+                        Width="17" 
+                        VerticalAlignment="Center" 
+                        Source="Resources/email.png"
+                        Margin="1,4,0,4.4"
+                    />
+                </Grid>
+            </Grid>
+            <materialDesign:Chip 
+                x:Name="ReсButton"
+                Content="Получить код" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top"
+                Background="#0078d7"
+                Foreground="White" 
+                FontSize="18" 
+                Height="35"
+                VerticalContentAlignment="Center"
+                HorizontalContentAlignment="Center"
+                Padding="0" 
+                Click="RecButton_Click" 
+                Margin="0,70,0,0">
+                <materialDesign:Chip.Effect>
+                    <DropShadowEffect 
+                        Color="#FF0078D7" 
+                        Direction="310" 
+                        ShadowDepth="5" 
+                        Opacity="0.3"
+                    />
+                </materialDesign:Chip.Effect>
+            </materialDesign:Chip>
+
+        </Grid>
+
+        <Button 
+            x:Name="Exit" 
+            Content="Закрыть" 
+            HorizontalAlignment="Right"
+            Margin="0,0,40,50"
+            VerticalAlignment="Bottom"
+            Height="Auto" 
+            Padding="5,3,5,5" 
+            VerticalContentAlignment="Center"
+            FontSize="12" Click="Exit_Click">
+            <Button.Effect>
+                <DropShadowEffect 
+                    Color="#FF0078D7" 
+                    Direction="310" 
+                    ShadowDepth="5" 
+                    Opacity="0.3"
+                />
+            </Button.Effect>
+        </Button>
+        <Grid x:Name="GridCode" Margin="60,300,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Label x:Name="label" Content="Введите код:" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18"/>
+            <TextBox 
+                x:Name="textBoxCode" 
+                HorizontalAlignment="Left"
+                TextWrapping="Wrap"
+                BorderBrush="#0078d7"
+                VerticalAlignment="Top" 
+                Margin="0,30,0,0"
+                Width="150" 
+                FontSize="22"
+            />
+            <materialDesign:Chip 
+                x:Name="CodeButtonCheck"
+                Content="Проверить" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top"
+                Background="#0078d7"
+                Foreground="White" 
+                FontSize="18" 
+                Height="35"
+                VerticalContentAlignment="Center"
+                HorizontalContentAlignment="Center"
+                Padding="0"
+                Margin="0,80,0,0" Click="CodeButtonCheck_Click">
+                <materialDesign:Chip.Effect>
+                    <DropShadowEffect 
+                        Color="#FF0078D7" 
+                        Direction="310" 
+                        ShadowDepth="5" 
+                        Opacity="0.3"
+                    />
+                </materialDesign:Chip.Effect>
+            </materialDesign:Chip>
+
+        </Grid>
+        <Grid x:Name="GridPass" Margin="60,435,140,90">
+
+            <Grid Margin="0,0,0,-335">
+                <Label 
+                    x:Name="label1" 
+                    Content="Введите новый пароль:" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top"
+                />
+                <PasswordBox 
+                    x:Name="passBox" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top" 
+                    Style="{StaticResource MaterialDesignPasswordBox}"
+                    BorderBrush="#0078d7"
+                    Width="200"
+                    FontSize="16"
+                    Margin="0,20,0,0" PasswordChanged="passBox_PasswordChanged"
+            />
+
+            </Grid>
+            <Grid Margin="0,70,0,34">
+                <Label 
+                    x:Name="label3"
+                    Content="Подтвердите пароль:" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top"
+                />
+                <PasswordBox 
+                    x:Name="passwordBoxRec" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top" 
+                    Style="{StaticResource MaterialDesignPasswordBox}"
+                    BorderBrush="#0078d7"
+                    Width="200" 
+                    FontSize="16"
+                    Margin="0,20,0,0"
+                    materialDesign:TextFieldAssist.UnderlineBrush="{Binding brush}" PasswordChanged="passwordBoxRec_PasswordChanged"
+                />
+                <Label 
+                    x:Name="passCheck" 
+                    Content="Пароли не совпадают" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top"
+                    Margin="0,50,0,0"
+                    Padding="0"
+                    FontSize="10"
+                    Foreground="Red"
+                    Visibility="Hidden"
+                />
+            </Grid>
+            <materialDesign:Chip 
+                x:Name="PassButton"
+                Content="Восстановить пароль" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top"
+                Background="#0078d7"
+                Foreground="White" 
+                FontSize="18" 
+                Height="35"
+                VerticalContentAlignment="Center"
+                HorizontalContentAlignment="Center"
+                Padding="0"
+                Click="PassButton_Click" Margin="0,140,0,0">
+                <materialDesign:Chip.Effect>
+                    <DropShadowEffect 
+                        Color="#FF0078D7" 
+                        Direction="310" 
+                        ShadowDepth="5" 
+                        Opacity="0.3"
+                    />
+                </materialDesign:Chip.Effect>
+            </materialDesign:Chip>
+
+        </Grid>
+
+    </Grid>
+</Window>
