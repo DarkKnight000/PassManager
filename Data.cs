@@ -74,8 +74,8 @@ namespace PassManager
         {
             dt_user = new DataTable();
 
-            //try
-            //{
+            try
+            {
                 MySqlConnection conn = new MySqlConnection(connection.ConnectionString);
                 conn.Open();
                 MySqlCommand sqlCommand = new MySqlCommand(sqlcmd, conn);
@@ -83,12 +83,12 @@ namespace PassManager
                 da.Fill(dt_user);
                 conn.Close();
                 check_con = true;
-            /*}
+            }
             catch
             {
                 check_con = false;
                 MessageBox.Show("Ошибка подключения!");
-            }*/
+            }
 
             return dt_user;
         }
