@@ -64,22 +64,8 @@
                     Opacity="0.15"
                 />
             </Border.Effect>
-            <TextBlock 
-                x:Name="textBlock" 
-                TextWrapping="Wrap" 
-                Text="Регистрация" 
-                HorizontalAlignment="Center" 
-                VerticalAlignment="Bottom"
-                Margin="0,0,0,60"
-                Cursor="Hand"
-                TextDecorations="Underline"
-                FontSize="16"
-                Foreground="Blue"
-                FontFamily="Arial"
-                MouseLeftButtonUp="textBlock_MouseLeftButtonUp"
-            />
         </Border>
-        
+
         <Label 
             x:Name="label2" 
             Content="Авторизация" 
@@ -119,7 +105,7 @@
             Margin="135,170,0,0"
             Source="Resources/user.png"
         />
-        
+
         <PasswordBox 
             x:Name="passBoxPass" 
             materialDesign:HintAssist.Hint="Пароль"
@@ -174,7 +160,7 @@
         <TextBlock
             x:Name="textBlockRecov" 
             TextWrapping="Wrap" 
-            Text="Забыли пароль?" 
+            Text="Восстановление пароля" 
             HorizontalAlignment="Left" 
             VerticalAlignment="Bottom"
             Margin="135,0,0,230"

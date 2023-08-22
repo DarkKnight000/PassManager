@@ -9,43 +9,58 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 
 namespace PassManager
 {
     public class Data
     {
-        // Аккаунты:
-        public static string idAcc { get; set; }
-        public static string title { get; set; }
-        public static string link { get; set; }
-        public static string nickname { get; set; }
-        public static string email { get; set; }
-        public static string pass { get; set; }
-        public static string accDescription { get; set; }
-        public static int accountsCount { get; set; }
-        public static int accLastCode { get; set; }
-        public static DataTable dt_acc;
 
+        public static DataTable dt_acc;
+        public static int accountsCount { get; set; }
+        public class DataPass
+        {
+            // Аккаунты:
+            public string idPass { get; set; }
+            public string idUser { get; set; }
+            public string title { get; set; }
+            public string link { get; set; }
+            public string nickname { get; set; }
+            public string email { get; set; }
+            public string pass { get; set; }
+            public string accDescription { get; set; }
+            public string isPrivate { get; set; }
+
+        }
 
         // Карты:
-        public static string idCard { get; set; }
-        public static string owner { get; set; }
-        public static string bank { get; set; }
-        public static string cardType { get; set; }
-        public static string cardNumber { get; set; }
-        public static string date { get; set; }
-        public static string cvc { get; set; }
-        public static string pin { get; set; }
-        public static string cardDescription { get; set; }
         public static int cardsCount { get; set; }
         public static int cardsLastCode { get; set; }
         public static DataTable dt_cards;
+        public class DataCard
+        {
+            public string idCard { get; set; }
+            public string idUser { get; set; }
+            public string owner { get; set; }
+            public string bank { get; set; }
+            public string cardType { get; set; }
+            public string cardNumber { get; set; }
+            public string date { get; set; }
+            public string cvc { get; set; }
+            public string pin { get; set; }
+            public string cardDescription { get; set; }
+            public string isPrivate { get; set; }
+        }
 
         // Пользователь:
         public static int userId { get; set; }
+        public static string userNick { get; set; }
         public static string userName { get; set; }
+        public static string userSurname { get; set; }
+        public static string userPatronymic { get; set; }
         public static string userEmail { get; set; }
         public static string userPass { get; set; }
+        public static string userPosition { get; set; }
 
         // Прочее:
         public static MySqlConnectionStringBuilder connection;
@@ -54,19 +69,30 @@ namespace PassManager
         public static bool check_con = false;
         public static DataTable dt_user;
         public static DataTable dt_banks;
+        public static DataTable dt_positions;
+        public static bool dir = false;
+        public static int myInd;
+        public static string myPos;
+        public static string myName;
+        public static string mySurname;
+        public static string myPatronymic;
         Crypt crypto = new Crypt();
 
         // Строка соединения:
-        public void strcon()
+        private void strconnection()
         {
             connection = new MySqlConnectionStringBuilder()
             {
-                Server = "f0586228.xsph.ru",
+                Server = "mysql.j74236113.myjino.ru",
                 Port = 3306,
-                Database = "f0586228_test",
-                UserID = "f0586228",
+                Database = "j74236113",
+                UserID = "j74236113",
                 Password = "deuzatihza"
             };
+        }
+        public void strcon()
+        {
+            strconnection();
         }
 
         // Соединение с БД:
@@ -94,59 +120,74 @@ namespace PassManager
         }
 
         // Вывод аккаунтов:
-        public void show_accounts(DataGrid dataGrid1)
+        public void show_accounts(DataGrid dataGridWork, DataGrid dataGridPrivate)
         {
-            dt_acc = new DataTable();
+            Data.dt_user = new DataTable();
 
-            sqlcmd = $@"SELECT `Код`, `Заголовок`, `Ссылка`, `Логин(Ник)`, `Электронная почта`, `Пароль`, `Описание`
-                        FROM Passwords
+            sqlcmd = $@"SELECT *
+                        FROM passwords
                         WHERE user_id = {userId}"
             ;
-            dt_acc = Connect(sqlcmd);
+            Data.dt_user = Connect(sqlcmd);
 
             if (check_con == true)
             {
-                if (dt_acc.Rows.Count == 0)
-                {
-                    accLastCode = 0;
-                }
-                else
-                {
-                    accLastCode = Convert.ToInt32(dt_acc.Rows[dt_acc.Rows.Count - 1][0]);
-                }
-                accountsCount = dt_acc.Rows.Count;
+                dataGridWork.Items.Clear();
+                dataGridPrivate.Items.Clear();
+                Data.accountsCount = Data.dt_user.Rows.Count;
 
-                crypto.Encrypt(accountsCount, 6);
+                //crypto.Encrypt(Data.accountsCount, 7);
+                crypto.Encrypt(Data.dt_user, Data.accountsCount, 7);
 
-                dataGrid1.ItemsSource = dt_acc.DefaultView;    // Сам вывод данных
+                for (int i = 0; i < Data.dt_user.Rows.Count; i++)
+                {
+                    DataPass data = new DataPass()
+                    {
+                        idPass = Convert.ToString(Data.dt_user.Rows[i][0]),
+                        idUser = Convert.ToString(Data.dt_user.Rows[i][1]),
+                        title = Convert.ToString(Data.dt_user.Rows[i][2]),
+                        link = Convert.ToString(Data.dt_user.Rows[i][3]),
+                        nickname = Convert.ToString(Data.dt_user.Rows[i][4]),
+                        email = Convert.ToString(Data.dt_user.Rows[i][5]),
+                        pass = Convert.ToString(Data.dt_user.Rows[i][6]),
+                        accDescription = Convert.ToString(Data.dt_user.Rows[i][7]),
+                        isPrivate = Convert.ToString(Data.dt_user.Rows[i][8])
+                    };
+
+                    if (data.isPrivate == "False")
+                    {
+                        dataGridWork.Items.Add(data);
+                    }
+                    else
+                    {
+                        dataGridPrivate.Items.Add(data);
+                    }
+                }
+
+                //dataGrid1.ItemsSource = dt_acc.DefaultView;    // Сам вывод данных
             }
 
         }
 
         // Вывод карт:
-        public void show_cards(DataGrid dataGrid2)
+        public void show_cards(DataGrid dataGridWork, DataGrid dataGridPrivate)
         {
             dt_cards = new DataTable();
 
-            sqlcmd = $@"SELECT Cards.Код, Cards.`Владелец карты`, 
-                        Banks.Банк, `Card type`.`Тип карты`, Cards.`Номер карты`, 
-                        Cards.`Срок действия`, `CVC/CVV`.`CVC/CVV`, 
-                        Pin.`Пин-код`, Cards.Описание
-                        FROM Pin INNER JOIN 
-                        (`CVC/CVV` INNER JOIN 
-                        (`Card type` INNER JOIN 
-                        (Banks INNER JOIN 
-                        Cards ON Banks.id_bank = Cards.Банк) 
-                        ON `Card type`.id_type = Cards.`Тип карты`) 
-                        ON `CVC/CVV`.id_CVC = Cards.`CVC/CVV`) 
-                        ON Pin.id_pin = Cards.`Пин-код`
-
-                        WHERE user_id = {userId}"
+            sqlcmd = $@"SELECT `cards`.`card_id`, `cards`.`user_id`, `cards`.owner, `banks`.`Банк`, `card type`.`Тип карты`, 
+                               `cards`.number, `cards`.date, `cards`.cvc, `cards`.pin, `cards`.description, `cards`.private
+                        FROM `cards` 
+	                    LEFT JOIN `banks` ON `cards`.bank = `banks`.`id_bank` 
+	                    LEFT JOIN `card type` ON `cards`.type = `card type`.`id_type`
+                        WHERE user_id = {userId};"
             ;
+
             dt_cards = Connect(sqlcmd);
 
             if (check_con == true)
             {
+                dataGridWork.Items.Clear();
+                dataGridPrivate.Items.Clear();
                 if (dt_cards.Rows.Count == 0)
                 {
                     cardsLastCode = 0;
@@ -157,9 +198,35 @@ namespace PassManager
                 }
                 cardsCount = dt_cards.Rows.Count;
 
-                crypto.Encrypt(cardsCount, 8);
+                //crypto.Encrypt(cardsCount, 8);
+                crypto.Encrypt(Data.dt_user, cardsCount, 8);
 
-                dataGrid2.ItemsSource = dt_cards.DefaultView;    // Сам вывод данных
+                for (int i = 0; i < Data.dt_user.Rows.Count; i++)
+                {
+                    DataCard dataCard = new DataCard()
+                    {
+                        idCard = Convert.ToString(Data.dt_user.Rows[i][0]),
+                        idUser = Convert.ToString(Data.dt_user.Rows[i][1]),
+                        owner = Convert.ToString(Data.dt_user.Rows[i][2]),
+                        bank = Convert.ToString(Data.dt_user.Rows[i][3]),
+                        cardType = Convert.ToString(Data.dt_user.Rows[i][4]),
+                        cardNumber = Convert.ToString(Data.dt_user.Rows[i][5]),
+                        date = Convert.ToString(Data.dt_user.Rows[i][6]),
+                        cvc = Convert.ToString(Data.dt_user.Rows[i][7]),
+                        pin = Convert.ToString(Data.dt_user.Rows[i][8]),
+                        cardDescription = Convert.ToString(Data.dt_user.Rows[i][9]),
+                        isPrivate = Convert.ToString(Data.dt_user.Rows[i][10])
+                    };
+
+                    if (dataCard.isPrivate == "False")
+                    {
+                        dataGridWork.Items.Add(dataCard);
+                    }
+                    else
+                    {
+                        dataGridPrivate.Items.Add(dataCard);
+                    }
+                }
             }
 
         }
@@ -170,7 +237,7 @@ namespace PassManager
             dt_banks = new DataTable();
 
             sqlcmd = $@"SELECT * 
-                             FROM `Banks`"
+                             FROM Banks"
             ;
 
             for (int i = 0; i < 1; i++)
@@ -200,6 +267,14 @@ namespace PassManager
             }
         }
 
+
+        public void GetPositions()
+        {
+            sqlcmd = $@"SELECT *
+                        FROM position"
+            ;
+            dt_positions = Connect(sqlcmd);
+        }
         // Проверка соединения:
         public void CheckIntConn()
         {
@@ -207,7 +282,7 @@ namespace PassManager
             {
                 using (var client = new WebClient())
                 {
-                    using (var stream = client.OpenRead("http://www.google.ru"))
+                    using (var stream = client.OpenRead("http://www.yandex.ru"))
                     {
                         check_con = true;
                     }

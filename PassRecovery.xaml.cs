@@ -25,9 +25,11 @@ namespace PassManager
         public PassRecovery()
         {
             InitializeComponent();
+
             GridCode.Visibility = Visibility.Hidden;
             GridPass.Visibility = Visibility.Hidden;
         }
+
         private int code;
         private string userMail;
         private string userMail_enc;
@@ -40,9 +42,10 @@ namespace PassManager
         // Кнопка Получить код:
         private void RecButton_Click(object sender, RoutedEventArgs e)
         {
-            userMail = crypto.Encode(textBoxLogMail.Text, Crypt.key);
+            userMail = textBoxLogMail.Text;
+            userMail_enc = crypto.Encode(userMail, Crypt.key);
             Data.sqlcmd = $@"SELECT * FROM Users 
-                             WHERE BINARY login = '{userMail}' OR BINARY email = '{userMail}'"
+                             WHERE BINARY login = '{userMail_enc}' OR BINARY email = '{userMail_enc}'"
             ;
             Data.dt_user = data.Connect(Data.sqlcmd);
 
@@ -50,10 +53,14 @@ namespace PassManager
             {
                 if (Data.dt_user.Rows.Count > 0)     // Если такая запись существует
                 {
-                    userMail_enc = Data.dt_user.Rows[0][2].ToString();
-                    crypto.Encrypt(1, 3);
-                    userMail = Data.dt_user.Rows[0][2].ToString();
+                    userMail = Data.dt_user.Rows[0][5].ToString();
+                    userMail = crypto.Decode(userMail, Crypt.key);
+                    //crypto.Encrypt(1, 3);
+                    //crypto.Encrypt(Data.dt_user, 1, 5);
 
+                    //userMail = Data.dt_user.Rows[0][5].ToString();
+
+                    //MessageBox.Show($"{userMail}");
                     SendRecovery();
                 }
                 else
@@ -66,16 +73,21 @@ namespace PassManager
         // Отправка кода восстановления на эл.почту:
         private void SendRecovery()
         {
-            string myMail = "passman.recovery@bk.ru";
+            /*string myMail = "passman.recovery@bk.ru";
             string myPass = "nVRx25iwfiqp1pYYktRZ";
+            string name = "Менеджер паролей";
+            string theme = "Восстановление пароля";*/
+
+            string myMail = "passmanager@bk.ru";
+            string myPass = "c06DXxXuHZYS7GuLXsXJ";
             string name = "Менеджер паролей";
             string theme = "Восстановление пароля";
 
 
             Random rnd = new Random();
             code = rnd.Next(100000, 999999);
-            //try
-            //{
+            try
+            {
                 // отправитель - устанавливаем адрес и отображаемое в письме имя
                 MailAddress from = new MailAddress(myMail, name);
                 // кому отправляем
@@ -90,7 +102,7 @@ namespace PassManager
                 //m.IsBodyHtml = true;
 
                 // адрес smtp-сервера и порт, с которого будем отправлять письмо
-                SmtpClient smtp = new SmtpClient("smtp.mail.ru", 465);
+                SmtpClient smtp = new SmtpClient("smtp.bk.ru", 587);
                 // логин и пароль
                 smtp.EnableSsl = true;
                 smtp.Credentials = new NetworkCredential(myMail, myPass);
@@ -101,12 +113,12 @@ namespace PassManager
                 //MessageBox.Show(userMail);
                 MessageBox.Show("Сообщение успешно отправлено\nПроверьте свою почту");
                 GridCode.Visibility = Visibility.Visible;
-            /*}
+            }
             catch
             {
                 //Cursor = Cursors.Arrow;
                 MessageBox.Show("Ошибка отправки сообщения\nПроверьте введённые данные\nили интернет соединение");
-            }*/
+            }
         }
 
         // Кнопка Проверить (код):
@@ -128,7 +140,7 @@ namespace PassManager
             userNewPass = crypto.Encode(passBox.Password, Crypt.key);
             Data.sqlcmd = $@"UPDATE Users
                              SET `pass` = '{userNewPass}'
-                             WHERE `email` = '{userMail_enc}';"
+                             WHERE `user_id` = '{Data.dt_user.Rows[0][0]}';"
             ;
             try
             {

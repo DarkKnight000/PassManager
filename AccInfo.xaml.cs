@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static PassManager.Data;
 
 namespace PassManager
 {
@@ -50,24 +51,26 @@ namespace PassManager
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //Hyperlink hyperl = new Hyperlink();
-            //hyperl.NavigateUri = new Uri($"{Data.link}");
+            DataPass dataPass = new DataPass();
 
-            hyperLinkText.Inlines.Add(Data.link);
+            /*Hyperlink hyperl = new Hyperlink();
+            hyperl.NavigateUri = new Uri($"{dataPass.link}");
 
-            if (Data.link.Contains("http://") || Data.link.Contains("https://"))
+            hyperLinkText.Inlines.Add(dataPass.link);
+            
+            if (dataPass.link.Contains("http://") || dataPass.link.Contains("https://"))
             { }
             else
             {
-                Data.link = $"http://{Data.link}";
+                dataPass.link = $"http://{dataPass.link}";
             }
 
             try
             {
-                hyperLinkText.NavigateUri = new Uri($"{Data.link}");
+                hyperLinkText.NavigateUri = new Uri($"{dataPass.link}");
             }
             catch
-            { }
+            { }*/
         }
     }
 }

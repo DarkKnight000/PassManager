@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     Title="Данные" 
     Height="720" 
-    Width="1280"
+    Width="1480"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     Background="Transparent"
@@ -58,6 +58,33 @@
             />
 
         </Style>
+        <Style 
+            x:Key="GridViewColumnHeaderStyle1" 
+            TargetType="{x:Type DataGridColumnHeader}">
+            <Setter 
+                Property="Template">
+                <Setter.Value>
+                    <ControlTemplate 
+                        TargetType="{x:Type DataGridColumnHeader}">
+                        <Border 
+                            BorderThickness="0,0,0,10"
+                            CornerRadius="20,20,0,0"
+                            BorderBrush="Transparent" 
+                            Background="#0078d7">
+                            <TextBlock 
+                                x:Name="ContentHeader" 
+                                Text="{TemplateBinding Content}" 
+                                FontSize="16"
+                                Foreground="White"
+                                Padding="18,10" 
+                                Width="Auto" 
+                                TextAlignment="Left" 
+                            />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Window.CommandBindings>
@@ -76,21 +103,87 @@
     <Grid
         Name="MainGrid"
         Background="Transparent" 
-        Width="1280"
+        Width="1480" HorizontalAlignment="Right"
         >
 
         <Border 
             BorderBrush="Blue"
-            Width="1280"
+            Width="1480"
             Height="720" 
             BorderThickness="2" 
-            HorizontalAlignment="Left" 
+            HorizontalAlignment="Right" 
             VerticalAlignment="Top"
             Background="AliceBlue"
             CornerRadius="15" 
             Grid.RowSpan="2"
         />
-
+        <ListBox 
+                Background="LightGray"
+                x:Name="listBoxEmp" 
+                Width="215"
+                Padding="0,1,0,1"
+                UseLayoutRounding="False"
+                BorderThickness="5" 
+                VerticalContentAlignment="Stretch"
+                FontSize="14" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Bottom" 
+            Height="530" 
+            Margin="0,0,0,50"
+                SelectionChanged="listBoxEmp_SelectionChanged" 
+            />
+        <StackPanel x:Name="stackPanelDir" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Visibility="Hidden">
+            <TextBlock 
+                x:Name="textBlockReg" 
+                TextWrapping="Wrap" 
+                Text="Новый сотрудник"
+                Cursor="Hand"
+                TextDecorations="Underline"
+                FontSize="14"
+                Foreground="Blue"
+                FontFamily="Arial" 
+                MouseLeftButtonUp="textBlockReg_MouseLeftButtonUp" Margin="0,0,0,5"
+            />
+            <TextBlock 
+                x:Name="textBlockPos" 
+                TextWrapping="Wrap" 
+                Text="Новая должность"
+                Cursor="Hand"
+                TextDecorations="Underline"
+                FontSize="14"
+                Foreground="Blue"
+                FontFamily="Arial" MouseLeftButtonUp="textBlockPos_MouseLeftButtonUp" 
+            />
+        </StackPanel>
+        <Button 
+                        x:Name="RefreshButton" 
+                        Content="Обновить"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Top" 
+                        Margin="220,100,0,0" 
+                        Grid.Row="1"
+                        Grid.RowSpan="2"
+                        Grid.Column="1" 
+                        Height="40" 
+                        Width="120" 
+                        Padding="0" 
+                        FontSize="20" 
+                        ClickMode="Press" Click="RefreshButton_Click">
+            <Button.Background>
+                <LinearGradientBrush 
+                                EndPoint="0.5,1" 
+                                MappingMode="RelativeToBoundingBox" 
+                                StartPoint="0.5,0">
+                    <GradientStop 
+                                    Color="#FF92C9F4" 
+                                    Offset="1"
+                                />
+                    <GradientStop 
+                                    Color="#FF2196F3"
+                                />
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <TabControl 
             x:Name="tabControl"
             Margin="15,0,25,25"
@@ -101,7 +194,7 @@
             VerticalContentAlignment="Center" 
             ScrollViewer.CanContentScroll="True" 
             BorderThickness="1,1,0,1" 
-            HorizontalAlignment="Center" 
+            HorizontalAlignment="Right" 
             VerticalAlignment="Bottom" 
             Width="1240" 
             Height="550" 
@@ -182,10 +275,32 @@
                         BorderBrush="Gray"  
                         BorderThickness="0,0,0,1" 
                     />
-                    <DataGrid 
-                        x:Name="dataGrid1"
+                    <TabControl x:Name="tabControl1"
+                                Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
+                                Width="1110" 
+                                Padding="0"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                MaxWidth="1110" 
+                                Margin="0,0,0,0" 
+                                Grid.ColumnSpan="2" TabStripPlacement="Top">
+                        <TabItem x:Name="tabItemAccWork" 
+                            Header="Рабочее"
+                            Style="{StaticResource MaterialDesignNavigationRailTabItem}" Width="100" Padding="10,5,10,5" Height="30" MouseLeftButtonUp="tabItemAccWork_MouseLeftButtonUp" >
+                            <Grid 
+                                  Background="Transparent" 
+                    HorizontalAlignment="Left"
+                    ScrollViewer.HorizontalScrollBarVisibility="Visible" 
+                    MinHeight="100"
+                    Cursor="Arrow"
+                    VerticalAlignment="Top"
+                    Width="1140" 
+                    Height="290">
+                                <DataGrid Style="{StaticResource MaterialDesignDataGrid}"
+                        ColumnHeaderStyle="{StaticResource GridViewColumnHeaderStyle1}" 
+                        x:Name="dataGridAccWork"
                         BorderThickness="1" 
-                        BorderBrush="Gray"
+                        BorderBrush="Transparent"
                         Foreground="Black"
                         CanUserAddRows="False" 
                         CanUserDeleteRows="False"
@@ -199,34 +314,205 @@
                         SelectionMode="Single" 
                         SelectionUnit="FullRow"
                         MinColumnWidth="50"
-                        MaxColumnWidth="300">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu
+                        MaxColumnWidth="300" 
+                        MaxWidth="1110" Width="1110">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn 
+                                Header="pass_id"
+                                Width="0"
+                                Binding="{Binding idPass}"
+                                MaxWidth="0"
+                            />
+                                        <DataGridTextColumn 
+                                Width="180"
+                                FontSize="14" 
+                                Binding="{Binding title}"
+                                Header="Заголовок" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="180"
+                                FontSize="14" 
+                                Binding="{Binding link}"
+                                Header="Ссылка" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="180"
+                                FontSize="14" 
+                                Binding="{Binding nickname}"
+                                Header="Логин(Ник)" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="180"
+                                FontSize="14" 
+                                Binding="{Binding email}"
+                                Header="Email" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="180"
+                                FontSize="14" 
+                                Binding="{Binding pass}"
+                                Header="Пароль" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="170"
+                                FontSize="14" 
+                                Binding="{Binding accDescription}"
+                                Header="Описание" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="0"
+                                FontSize="1"
+                                            MaxWidth="0"
+                                            CanUserResize="False"
+                                Binding="{Binding IsPrivate}"
+                                Header="Описание" 
+                            />
+                                    </DataGrid.Columns>
+
+                                    <DataGrid.ContextMenu>
+                                        <ContextMenu
                                 Background="White">
-                                <MenuItem 
+                                            <MenuItem 
                                     Header="Изменить"
                                     Click="MenuItemChange_Click">
-                                    <MenuItem.Icon>
-                                        <Image Source="/Resources/change.png"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem 
+                                                <MenuItem.Icon>
+                                                    <Image Source="/Resources/change.png"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem 
                                     Header="Удалить"
                                     Click="MenuItemDelete_Click">
-                                    <MenuItem.Icon>
-                                        <Image Source="/Resources/delete.png"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem 
+                                                <MenuItem.Icon>
+                                                    <Image Source="/Resources/delete.png"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem 
                                     Header="Информация"
                                     Click="MenuItemInfo_Click">
-                                    <MenuItem.Icon>
-                                        <Image Source="/Resources/info.png"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                    </DataGrid>
+                                                <MenuItem.Icon>
+                                                    <Image Source="/Resources/info.png"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </DataGrid.ContextMenu>
+                                </DataGrid>
+                            </Grid>
+                        </TabItem>
+                        <TabItem x:Name="tabItemAccPrivate" 
+                                 Header="Личное"
+                                 Style="{StaticResource MaterialDesignNavigationRailTabItem}" Height="30" Padding="10,5,10,5" Width="100" MouseLeftButtonUp="tabItemAccPrivate_MouseLeftButtonUp" >
+                            <Grid 
+                                  Background="Transparent" 
+                    HorizontalAlignment="Left"
+                    ScrollViewer.HorizontalScrollBarVisibility="Visible" 
+                    MinHeight="100"
+                    Cursor="Arrow"
+                    VerticalAlignment="Top"
+                    Width="1140" 
+                    Height="290">
+                                <DataGrid Style="{StaticResource MaterialDesignDataGrid}"
+                        ColumnHeaderStyle="{StaticResource GridViewColumnHeaderStyle1}" 
+                        x:Name="dataGridAccPrivate"
+                        BorderThickness="1" 
+                        BorderBrush="Transparent"
+                        Foreground="Black"
+                        CanUserAddRows="False" 
+                        CanUserDeleteRows="False"
+                        IsReadOnly="True"
+                        GridLinesVisibility="Horizontal"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        VerticalAlignment="Top"
+                        Grid.ColumnSpan="2" 
+                        Margin="0,0,31,0"
+                        SelectionMode="Single" 
+                        SelectionUnit="FullRow"
+                        MinColumnWidth="50"
+                        MaxColumnWidth="300" 
+                        MaxWidth="1110" Width="1110">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn 
+                                Header="pass_id"
+                                Width="0"
+                                Binding="{Binding idPass}"
+                                MaxWidth="0"
+                            />
+                                        <DataGridTextColumn 
+                                Width="180"
+                                FontSize="14" 
+                                Binding="{Binding title}"
+                                Header="Заголовок" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="180"
+                                FontSize="14" 
+                                Binding="{Binding link}"
+                                Header="Ссылка" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="180"
+                                FontSize="14" 
+                                Binding="{Binding nickname}"
+                                Header="Логин(Ник)" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="180"
+                                FontSize="14" 
+                                Binding="{Binding email}"
+                                Header="Email" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="180"
+                                FontSize="14" 
+                                Binding="{Binding pass}"
+                                Header="Пароль" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="170"
+                                FontSize="14" 
+                                Binding="{Binding accDescription}"
+                                Header="Описание" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="0"
+                                FontSize="1"
+                                            MaxWidth="0"
+                                            CanUserResize="False"
+                                Binding="{Binding IsPrivate}"
+                                Header="Описание" 
+                            />
+                                    </DataGrid.Columns>
+
+                                    <DataGrid.ContextMenu>
+                                        <ContextMenu
+                                Background="White">
+                                            <MenuItem 
+                                    Header="Изменить"
+                                    Click="MenuItemChange_Click">
+                                                <MenuItem.Icon>
+                                                    <Image Source="/Resources/change.png"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem 
+                                    Header="Удалить"
+                                    Click="MenuItemDelete_Click">
+                                                <MenuItem.Icon>
+                                                    <Image Source="/Resources/delete.png"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem 
+                                    Header="Информация"
+                                    Click="MenuItemInfo_Click">
+                                                <MenuItem.Icon>
+                                                    <Image Source="/Resources/info.png"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </DataGrid.ContextMenu>
+                                </DataGrid>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
 
                     <Label 
                         x:Name="label" 
@@ -381,14 +667,20 @@
                         VerticalContentAlignment="Center" 
                         VerticalScrollBarVisibility="Auto"
                     />
+                    <CheckBox 
+                        x:Name="checkBoxAccPrivate"
+                        Content="Личное"
+                        Grid.Row="1" 
+                        Grid.Column="2"
+                        HorizontalAlignment="Right" Margin="0,0,350,0"/>
                     <Button 
                         x:Name="AddAccButton" 
                         Content="Добавить"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                        Margin="0,0,300,0"
+                        Margin="0,30,300,0"
                         Grid.Row="1"
-                        Grid.RowSpan="2"
+                        Grid.RowSpan="3"
                         Grid.Column="1" 
                         Height="50" 
                         Width="150" 
@@ -413,7 +705,7 @@
                         Content="Отмена" 
                         HorizontalAlignment="Right" 
                         VerticalAlignment="Bottom" 
-                        Margin="0,0,335,35" 
+                        Margin="0,0,335,0" 
                         Grid.Column="1"
                         Grid.Row="3" 
                         Grid.RowSpan="2"
@@ -511,52 +803,252 @@
                         BorderBrush="Gray"  
                         BorderThickness="0,0,0,1" 
                     />
-                    <DataGrid 
-                        x:Name="dataGrid2"
+                    <TabControl x:Name="tabControl2"
+                                Style="{StaticResource MaterialDesignNavigatilRailTabControl}"
+                                Width="1110" 
+                                Padding="0"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                MaxWidth="1110" 
+                                Margin="0,0,0,0" 
+                                Grid.ColumnSpan="2" TabStripPlacement="Top">
+                        <TabItem x:Name="tabItemCardsWork" 
+                            Header="Рабочее"
+                            Style="{StaticResource MaterialDesignNavigationRailTabItem}" Width="100" Padding="10,5,10,5" Height="30" MouseLeftButtonUp="tabItemCardsWork_MouseLeftButtonUp" >
+                            <Grid 
+                                  Background="Transparent" 
+                    HorizontalAlignment="Left"
+                    ScrollViewer.HorizontalScrollBarVisibility="Visible" 
+                    MinHeight="100"
+                    Cursor="Arrow"
+                    VerticalAlignment="Top"
+                    Width="1140" 
+                    Height="210">
+                                <DataGrid 
+                        Style="{StaticResource MaterialDesignDataGrid}"
+                        ColumnHeaderStyle="{StaticResource GridViewColumnHeaderStyle1}" 
+                        x:Name="dataGridCardsWork"
                         BorderThickness="1" 
-                        BorderBrush="Gray"
+                        BorderBrush="Transparent"
                         Foreground="Black"
                         CanUserAddRows="False" 
                         CanUserDeleteRows="False"
-                        CanUserResizeRows="False"
                         IsReadOnly="True"
                         GridLinesVisibility="Horizontal"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        VerticalAlignment="Top"
-                        Grid.ColumnSpan="2" 
-                        Margin="0,0,31,10"
+                        VerticalAlignment="Top" 
+                        Margin="0,0,31,0"
                         SelectionMode="Single" 
                         SelectionUnit="FullRow"
                         MinColumnWidth="50"
-                        MaxColumnWidth="300">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu
+                        MaxColumnWidth="300"
+                        Width="1110" 
+                        MaxWidth="1110" Height="210" MaxHeight="210">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn 
+                                Header="card_id"
+                                Width="0"
+                                Binding="{Binding idCard}"
+                                MaxWidth="0"
+                            />
+                                        <DataGridTextColumn 
+                                Width="180"
+                                FontSize="14" 
+                                Binding="{Binding owner}"
+                                Header="Владелец" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="150"
+                                FontSize="14" 
+                                Binding="{Binding bank}"
+                                Header="Банк" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="150"
+                                FontSize="14" 
+                                Binding="{Binding cardType}"
+                                Header="Тип карты" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="180"
+                                FontSize="14" 
+                                Binding="{Binding cardNumber}"
+                                Header="Номер карты" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="80"
+                                FontSize="14" 
+                                Binding="{Binding date}"
+                                Header="Дата" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="90"
+                                FontSize="14" 
+                                Binding="{Binding cvc}"
+                                Header="CVC/CVV" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="90"
+                                FontSize="14" 
+                                Binding="{Binding pin}"
+                                Header="Пин-код" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="150"
+                                FontSize="14" 
+                                Binding="{Binding accDescription}"
+                                Header="Описание" 
+                            />
+                                    </DataGrid.Columns>
+                                    <DataGrid.ContextMenu>
+                                        <ContextMenu
                                 Background="White">
-                                <MenuItem 
+                                            <MenuItem 
                                     Header="Изменить"
                                     Click="MenuItemChange2_Click">
-                                    <MenuItem.Icon>
-                                        <Image Source="/Resources/change.png"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem 
+                                                <MenuItem.Icon>
+                                                    <Image Source="/Resources/change.png"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem 
                                     Header="Удалить"
                                     Click="MenuItemDelete2_Click">
-                                    <MenuItem.Icon>
-                                        <Image Source="/Resources/delete.png"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem 
+                                                <MenuItem.Icon>
+                                                    <Image Source="/Resources/delete.png"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem 
                                     Header="Информация"
                                     Click="MenuItemInfo2_Click">
-                                    <MenuItem.Icon>
-                                        <Image Source="/Resources/info.png"/>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                    </DataGrid>
+                                                <MenuItem.Icon>
+                                                    <Image Source="/Resources/info.png"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </DataGrid.ContextMenu>
+                                </DataGrid>
+                            </Grid>
+                        </TabItem>
+                        <TabItem x:Name="tabItemCardsPrivate" 
+                            Header="Личное"
+                            Style="{StaticResource MaterialDesignNavigationRailTabItem}" Width="100" Padding="10,5,10,5" Height="30" MouseLeftButtonUp="tabItemCardsPrivate_MouseLeftButtonUp" >
+                            <Grid 
+                                  Background="Transparent" 
+                    HorizontalAlignment="Left"
+                    ScrollViewer.HorizontalScrollBarVisibility="Visible" 
+                    MinHeight="100"
+                    Cursor="Arrow"
+                    VerticalAlignment="Top"
+                    Width="1140" 
+                    Height="210">
+                                <DataGrid 
+                        Style="{StaticResource MaterialDesignDataGrid}"
+                        ColumnHeaderStyle="{StaticResource GridViewColumnHeaderStyle1}" 
+                        x:Name="dataGridCardsPrivate"
+                        BorderThickness="1" 
+                        BorderBrush="Transparent"
+                        Foreground="Black"
+                        CanUserAddRows="False" 
+                        CanUserDeleteRows="False"
+                        IsReadOnly="True"
+                        GridLinesVisibility="Horizontal"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        VerticalAlignment="Top" 
+                        Margin="0,0,31,0"
+                        SelectionMode="Single" 
+                        SelectionUnit="FullRow"
+                        MinColumnWidth="50"
+                        MaxColumnWidth="300"
+                        Width="1110" 
+                        MaxWidth="1110" MaxHeight="210" Height="210">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn 
+                                Header="card_id"
+                                Width="0"
+                                Binding="{Binding idCard}"
+                                MaxWidth="0"
+                            />
+                                        <DataGridTextColumn 
+                                Width="180"
+                                FontSize="14" 
+                                Binding="{Binding owner}"
+                                Header="Владелец" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="150"
+                                FontSize="14" 
+                                Binding="{Binding bank}"
+                                Header="Банк" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="150"
+                                FontSize="14" 
+                                Binding="{Binding cardType}"
+                                Header="Тип карты" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="180"
+                                FontSize="14" 
+                                Binding="{Binding cardNumber}"
+                                Header="Номер карты" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="80"
+                                FontSize="14" 
+                                Binding="{Binding date}"
+                                Header="Дата" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="90"
+                                FontSize="14" 
+                                Binding="{Binding cvc}"
+                                Header="CVC/CVV" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="90"
+                                FontSize="14" 
+                                Binding="{Binding pin}"
+                                Header="Пин-код" 
+                            />
+                                        <DataGridTextColumn 
+                                Width="150"
+                                FontSize="14" 
+                                Binding="{Binding accDescription}"
+                                Header="Описание" 
+                            />
+                                    </DataGrid.Columns>
+                                    <DataGrid.ContextMenu>
+                                        <ContextMenu
+                                Background="White">
+                                            <MenuItem 
+                                    Header="Изменить"
+                                    Click="MenuItemChange2_Click">
+                                                <MenuItem.Icon>
+                                                    <Image Source="/Resources/change.png"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem 
+                                    Header="Удалить"
+                                    Click="MenuItemDelete2_Click">
+                                                <MenuItem.Icon>
+                                                    <Image Source="/Resources/delete.png"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                            <MenuItem 
+                                    Header="Информация"
+                                    Click="MenuItemInfo2_Click">
+                                                <MenuItem.Icon>
+                                                    <Image Source="/Resources/info.png"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </DataGrid.ContextMenu>
+                                </DataGrid>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
                     <Label 
                         x:Name="label7" 
                         Content="Владелец:" 
@@ -800,13 +1292,14 @@
                         Grid.Row="8" 
                         Padding="0,8,0,0" 
                     />
+                    <CheckBox x:Name="checkBoxCardPrivate" Content="Личное" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Margin="0,0,340,0"/>
                     <Button 
                         x:Name="CardAddButton" 
                         Content="Добавить"
                         HorizontalAlignment="Right" 
                         VerticalAlignment="Center" 
                         Margin="0,0,300,0" 
-                        Grid.Row="1"
+                        Grid.Row="2"
                         Grid.RowSpan="2"
                         Grid.Column="1" 
                         Height="50" 
@@ -835,9 +1328,9 @@
                         Content="Отмена" 
                         HorizontalAlignment="Right" 
                         VerticalAlignment="Bottom" 
-                        Margin="0,0,335,35" 
+                        Margin="0,0,335,0" 
                         Grid.Column="1"
-                        Grid.Row="3" 
+                        Grid.Row="4" 
                         Grid.RowSpan="2"
                         Height="Auto"
                         Padding="10,0,10,5" 
@@ -1031,7 +1524,7 @@
             Height="30"
             VerticalAlignment="Top"
             Width="30" 
-            Margin="20,335,0,0"
+            Margin="220,335,0,0"
             Grid.Row="1" 
             Source="Resources/accounts.png"
         />
@@ -1041,7 +1534,7 @@
             Height="30"
             VerticalAlignment="Top"
             Width="30" 
-            Margin="20,412,0,0"
+            Margin="220,412,0,0"
             Grid.Row="1" 
             Source="Resources/cards.png"
         />
@@ -1051,7 +1544,7 @@
             Height="30"
             VerticalAlignment="Top" 
             Width="30" 
-            Margin="20,475,0,0" 
+            Margin="220,475,0,0" 
             Grid.Row="1" 
             Source="Resources/passgen.png"
         />
@@ -1059,7 +1552,7 @@
             BorderBrush="Gray" 
             Margin="15,0,25,25"
             BorderThickness="1" 
-            HorizontalAlignment="Center" 
+            HorizontalAlignment="Right" 
             VerticalAlignment="Bottom" 
             Width="1240" 
             Height="550"
@@ -1090,6 +1583,16 @@
             Cursor="Hand">
             <StackPanel
                 Background="#FFFAFAFA">
+                <Button x:Name="ButtonInfo"
+                    Content="Профиль"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Background="Transparent"
+                    Foreground="#DD000000" 
+                    BorderThickness="1"
+                        BorderBrush="Gray"
+                    FontSize="14" 
+                    Padding="5,3" Click="ButtonInfo_Click"
+                />
                 <Button x:Name="ButtonChangeUser"
                     Content="Сменить пользователя"
                     Style="{StaticResource MaterialDesignFlatButton}"
@@ -1098,7 +1601,8 @@
                     BorderThickness="1"
                         BorderBrush="Gray"
                     FontSize="14" 
-                    Padding="5,3" Click="ButtonChangeUser_Click"
+                    Padding="5,3" 
+                        Click="ButtonChangeUser_Click"
                 />
                 <Button x:Name="ButtonExit"
                     Content="Выйти"
@@ -1113,7 +1617,7 @@
                 />
             </StackPanel>
         </Expander>
-            <!--Style="{StaticResource MaterialDesignFloatingActionSecondaryDarkButton}"-->
+        <!--Style="{StaticResource MaterialDesignFloatingActionSecondaryDarkButton}"-->
         <Button 
             x:Name="buttonBlock" 
             Content="Блок"

@@ -26,7 +26,13 @@ namespace PassManager
         public Reg()
         {
             InitializeComponent();
-            CodeConfirmGrid.Visibility = Visibility.Hidden;
+            //CodeConfirmGrid.Visibility = Visibility.Hidden;
+
+            int N = Data.dt_positions.Rows.Count;
+            for (int i = 1; i < N; i++)
+            {
+                comboBoxPosition.Items.Add(Data.dt_positions.Rows[i][1].ToString());
+            }
         }
 
         private static int code;
@@ -38,11 +44,23 @@ namespace PassManager
         private void RegButton_Click(object sender, RoutedEventArgs e)
         {
             string error = "Введите: ";
-            if (textBox.Text == "")
+            if (textBoxSur.Text == "")
+            {
+                error += "фамилию, ";
+            }
+            if (textBoxName.Text == "")
+            {
+                error += "имя, ";
+            }
+            if (comboBoxPosition.Text == "")
+            {
+                error += "должность, ";
+            }
+            if (textBoxLogin.Text == "")
             {
                 error += "логин/никнейм, ";
             }
-            if (textBox2.Text == "")
+            if (textBoxEmail.Text == "")
             {
                 error += "электронную почту, ";
             }
@@ -52,7 +70,7 @@ namespace PassManager
             }
             error = error.Remove(error.Length - 2);
 
-            if (textBox.Text == "" || textBox2.Text == "" || PassTextBox.Password == "")
+            if (textBoxLogin.Text == "" || textBoxEmail.Text == "" || PassTextBox.Password == "")
             {
                 MessageBox.Show(error);
             }
@@ -60,7 +78,7 @@ namespace PassManager
             {
                 if (PassTextBox.Password == passConfirmText.Password)
                 {
-                    string check_name = textBox.Text;
+                    string check_name = textBoxLogin.Text;
                     check_name = check_name.ToLower();
                     if (check_name == "admin" ||
                         check_name == "nimda" ||
@@ -68,15 +86,16 @@ namespace PassManager
                         check_name == "toor" ||
                         check_name == "qwerty")
                     {
-                        MessageBox.Show($"Логин {textBox.Text} недоступен для регистрации");
+                        MessageBox.Show($"Логин {textBoxLogin.Text} недоступен для регистрации");
                     }
                     else
                     {
                         Random rnd = new Random();
                         code = rnd.Next(100000, 999999);
+                        code = 1;
 
-                        Data.userName = crypto.Encode(textBox.Text, Crypt.key);
-                        Data.userEmail = crypto.Encode(textBox2.Text, Crypt.key);
+                        Data.userNick = crypto.Encode(textBoxLogin.Text, Crypt.key);
+                        Data.userEmail = crypto.Encode(textBoxEmail.Text, Crypt.key);
                         Data.userPass = crypto.Encode(PassTextBox.Password, Crypt.key);
 
                         check_user();       // Проверка наличия пользователя в бд
@@ -98,21 +117,27 @@ namespace PassManager
             DataTable dt_user;
             Data.sqlcmd = $@"SELECT EXISTS 
                             (SELECT * 
-                             FROM f0586228_test.Users 
-                             WHERE BINARY login='{Data.userName}' OR BINARY email='{Data.userEmail}' LIMIT 1)";
+                             FROM users 
+                             WHERE BINARY login='{Data.userNick}' OR BINARY email='{Data.userEmail}' LIMIT 1)";
 
             dt_user = data.Connect(Data.sqlcmd);
             if (Data.check_con == true)
             {
                 if (dt_user.Rows[0][0].ToString() == "1")     // Если такая запись существует       
                 {
-                    CodeConfirmGrid.Visibility = Visibility.Hidden;
+                    //CodeConfirmGrid.Visibility = Visibility.Hidden;
                     MessageBox.Show("Пользователь с таким логином и/или эл.почтой уже существует");
                 }
                 else
                 {
-                    //SendEmail().GetAwaiter();
-                    SendEmail();
+                    Data.userName = crypto.Encode(textBoxName.Text, Crypt.key);
+                    Data.userSurname = crypto.Encode(textBoxSur.Text, Crypt.key);
+                    Data.userPatronymic = crypto.Encode(textBoxPatr.Text, Crypt.key);
+                    Data.userNick = crypto.Encode(textBoxLogin.Text, Crypt.key);
+                    Data.userEmail = crypto.Encode(textBoxEmail.Text, Crypt.key);
+                    Data.userPass = crypto.Encode(PassTextBox.Password, Crypt.key);
+
+                    endReg();
                 }
             }
         }
@@ -122,17 +147,17 @@ namespace PassManager
         private void SendEmail()
         {
             string myMail = "passmanager@bk.ru";
-            string myPass = "CdwxNc97K3AdQNNkTF38";
+            string myPass = "BiqtT9LF9Wq28XYHsD5C";
             string name = "Менеджер паролей";
             string theme = "Код регистрации";
 
             Cursor = Cursors.Wait;
-            //try
-            //{
+            try
+            {
                 // отправитель - устанавливаем адрес и отображаемое в письме имя
                 MailAddress from = new MailAddress(myMail, name);
                 // кому отправляем
-                MailAddress to = new MailAddress(textBox2.Text);
+                MailAddress to = new MailAddress(textBoxEmail.Text);
                 // создаем объект сообщения
                 MailMessage m = new MailMessage(from, to);
                 // тема письма
@@ -154,43 +179,39 @@ namespace PassManager
 
                 MessageBox.Show("Сообщение успешно отправлено\nПроверьте свою почту");
 
-                CodeConfirmGrid.Visibility = Visibility.Visible;
-            /*}
+            }
             catch
             {
                 Cursor = Cursors.Arrow;
                 MessageBox.Show("Ошибка отправки сообщения\nПроверьте введённые данные\nили интернет соединение");
-            }*/
+            }
         }
 
-        // Завершение регистрации:
-        private void EndRegButton_Click(object sender, RoutedEventArgs e)
+        private void endReg()
         {
-            if (textBox5.Text == code.ToString())
+            Data.sqlcmd = $@"INSERT INTO users
+                                         (name, surname, patronymic, login, email, pass, id_position, last_access)
+                                  SELECT '{Data.userName}', '{Data.userSurname}', '{Data.userPatronymic}', 
+                                         '{Data.userNick}', '{Data.userEmail}', '{Data.userPass}', 
+                                         `position`.id_position, NOW()
+                                  FROM position
+                                  WHERE position.position_name = '{comboBoxPosition.Text}'"
+            ;
+            MessageBox.Show(Data.sqlcmd);
+            data.Connect(Data.sqlcmd);
+            try
             {
-                Data.sqlcmd = $@"INSERT INTO Users
-                                         (login, email, pass, online)
-                                  VALUES ('{Data.userName}', '{Data.userEmail}', 
-                                         '{Data.userPass}', 0)"
-                ;
-                try
+                data.CheckIntConn();
+                if (Data.check_con == true)
                 {
-                    data.CheckIntConn();
-                    if (Data.check_con == true)
-                    {
-                        data.Connect(Data.sqlcmd);
-                        MessageBox.Show("Поздравляем с успешной регистрацией");
-                        CodeConfirmGrid.Visibility = Visibility.Hidden;
-                    }
+                    //data.Connect(Data.sqlcmd);
+                    MessageBox.Show("Поздравляем с успешной регистрацией");
+                    //CodeConfirmGrid.Visibility = Visibility.Hidden;
                 }
-                catch { }
-
             }
-            else
-            {
-                MessageBox.Show("Неверный код доступа");
-            }
+            catch { }
         }
+
 
         // Кнопка Назад:
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -209,7 +230,7 @@ namespace PassManager
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             (sender as TextBox).Text = Regex.Replace((sender as TextBox).Text, @"\s+", "");
-            textBox.SelectionStart = textBox.Text.Length;
+            textBoxLogin.SelectionStart = textBoxLogin.Text.Length;
         }
 
         // Проверка подтверждения пароля:

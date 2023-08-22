@@ -8,7 +8,7 @@
         x:Class="PassManager.Reg"
         mc:Ignorable="d"
         Title="Регистрация"
-        Height="750" 
+        Height="700" 
         Width="400" 
         FontSize="14" 
         HorizontalAlignment="Center" 
@@ -18,7 +18,7 @@
     <Grid
         x:Name="layoutGrid" 
         HorizontalAlignment="Center" 
-        Height="750" 
+        Height="700" 
         VerticalAlignment="Center" 
         Width="400" 
         Background="LightGray">
@@ -27,7 +27,7 @@
             Background="White"
             BorderThickness="1" 
             HorizontalAlignment="Center" 
-            Height="680" 
+            Height="630" 
             Margin="0" 
             VerticalAlignment="Center" 
             Width="350"
@@ -57,205 +57,184 @@
                 </Label.Effect>
             </Label>
         </Border>
-        <Grid x:Name="Login" Margin="60,150,0,555" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Label 
-                x:Name="label" 
-                Content="Логин/Никнейм:"
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Top"
+        <StackPanel HorizontalAlignment="Center" Margin="0,130,0,0" Orientation="Vertical" VerticalAlignment="Top">
+
+            <TextBox 
+            x:Name="textBoxSur" 
+            materialDesign:HintAssist.Hint="Фамилия"
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+            BorderThickness="0,0,0,1"
+            BorderBrush="#FF0078D7"
+            materialDesign:HintAssist.Foreground="Gray"
+            FontSize="18" 
+            VerticalAlignment="Top" 
+            Padding="0,0,0,0"
+            HorizontalAlignment="Center" 
+            Width="280" Margin="0,0,0,5"
+        />
+            <TextBox 
+            x:Name="textBoxName" 
+            materialDesign:HintAssist.Hint="Имя"
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+            BorderThickness="0,0,0,1"
+            BorderBrush="#FF0078D7"
+            materialDesign:HintAssist.Foreground="Gray"
+            FontSize="18" 
+            VerticalAlignment="Top" 
+            Padding="0,0,0,0"
+            HorizontalAlignment="Center" 
+            Width="280" Margin="0,0,0,5"
+        />
+            <TextBox 
+            x:Name="textBoxPatr" 
+            materialDesign:HintAssist.Hint="Отчество"
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+            BorderThickness="0,0,0,1"
+            BorderBrush="#FF0078D7"
+            materialDesign:HintAssist.Foreground="Gray"
+            FontSize="18" 
+            VerticalAlignment="Top" 
+            Padding="0,0,0,0"
+            HorizontalAlignment="Center" 
+            Width="280" Margin="0,0,0,5"
             />
-            <Grid Margin="0,20,0,0.4">
+
+            <ComboBox
+                Name="comboBoxPosition"
+                Margin="0,0,0,5"
+                materialDesign:HintAssist.Hint="Должность"
+                Style="{StaticResource MaterialDesignComboBox}"
+                BorderBrush="#FF0078D7"
+                materialDesign:HintAssist.Foreground="Gray"
+                FontSize="18" Height="42" HorizontalAlignment="Left" Width="280" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom">
+
+            </ComboBox>
+            <Grid Margin="0,0,0,5">
                 <Image 
-                    x:Name="image" 
-                    HorizontalAlignment="Left"
-                    Height="18" 
-                    Width="18" 
-                    VerticalAlignment="Center"
-                    Source="Resources/user.png"
-                    Margin="0,6,0,1.4"
-                />
+                        x:Name="image" 
+                        HorizontalAlignment="Left"
+                        Height="18" 
+                        Width="18" 
+                        VerticalAlignment="Bottom"
+                        Source="Resources/user.png"
+                        Margin="-20,0,0,3"
+                    />
                 <TextBox 
-                    x:Name="textBox" 
-                    Style="{StaticResource MaterialDesignTextBox}"
-                    BorderBrush="#0078d7"
-                    HorizontalAlignment="Left"
-                    TextWrapping="Wrap" 
-                    VerticalAlignment="Top" 
-                    Padding="25,0,0,0" 
-                    FontSize="18"
-                    Width="280"
-                    BorderThickness="0,0,0,1"
-                    ToolTip="Логин/Никнейм пользователя" PreviewKeyDown="textBox_PreviewKeyDown" TextChanged="textBox_TextChanged"
+                        x:Name="textBoxLogin" 
+                        materialDesign:HintAssist.Hint="Логин"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                        BorderBrush="#0078d7"
+                        HorizontalAlignment="Left"
+                        TextWrapping="Wrap" 
+                        VerticalAlignment="Top" 
+                        Padding="0,0,0,0" 
+                        FontSize="18"
+                        Width="280"
+                        BorderThickness="0,0,0,1"
+                        ToolTip="Логин/Никнейм пользователя" PreviewKeyDown="textBox_PreviewKeyDown" TextChanged="textBox_TextChanged"
                 />
 
             </Grid>
-
-        </Grid>
-        <Grid x:Name="Email" Margin="60,225,0,480" HorizontalAlignment="Left">
-            <Label
-                x:Name="label2" 
-                Content="Электронная почта:" 
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Top"
-            />
-            <Grid Margin="0,20,0,0.4">
+            <Grid Margin="0,0,0,5">
                 <TextBox 
-                    xmlns:materialDesign.UnderlineBrush="Blue" 
-                    x:Name="textBox2" 
-                    BorderBrush="#0078d7"
-                    HorizontalAlignment="Left"
-                    TextWrapping="Wrap" 
-                    VerticalAlignment="Top" 
-                    Padding="25,0,0,0" 
-                    FontSize="18"
-                    Width="280"
-                    BorderThickness="0,0,0,1"
-                    ToolTip="Электронная почта для восстановления пароля"
-                    Style="{StaticResource MaterialDesignTextBox}"
+                        xmlns:materialDesign.UnderlineBrush="Blue" 
+                        x:Name="textBoxEmail" 
+                        materialDesign:HintAssist.Hint="Электронная почта"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                        BorderBrush="#0078d7"
+                        HorizontalAlignment="Left"
+                        TextWrapping="Wrap" 
+                        VerticalAlignment="Top" 
+                        Padding="0,0,0,0" 
+                        FontSize="18"
+                        Width="280"
+                        BorderThickness="0,0,0,1"
+                        ToolTip="Электронная почта для восстановления пароля"
                 />
                 <Image
-                    x:Name="image1" 
-                    HorizontalAlignment="Left" 
-                    Height="17" 
-                    Width="17" 
-                    VerticalAlignment="Center" 
-                    Source="Resources/email.png"
-                    Margin="1,4,0,4.4"
+                        x:Name="image1" 
+                        HorizontalAlignment="Left" 
+                        Height="17" 
+                        Width="17" 
+                        VerticalAlignment="Bottom" 
+                        Source="Resources/email.png"
+                        Margin="-20,0,0,3"
                 />
             </Grid>
-        </Grid>
-        <Grid x:Name="Pass" Margin="60,300,0,405" HorizontalAlignment="Left">
-            <Label 
-                x:Name="label3" 
-                Content="Пароль:"
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Top"
-        />
-            <Grid Margin="0,20,0,0.4">
+            <Grid Margin="0,0,0,5">
                 <PasswordBox 
-                    x:Name="PassTextBox" 
-                    Style="{StaticResource MaterialDesignPasswordBox}"
-                    BorderBrush="#0078d7"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top" 
-                    Padding="25,0,0,0" 
-                    FontSize="18"
-                    Width="280"
-                    BorderThickness="0,0,0,1" PasswordChanged="PassTextBox_PasswordChanged"
+                        x:Name="PassTextBox" 
+                        materialDesign:HintAssist.Hint="Пароль"
+                        Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                        BorderBrush="#0078d7"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top" 
+                        Padding="0,0,0,0" 
+                        FontSize="18"
+                        Width="280"
+                        BorderThickness="0,0,0,1" 
+                        PasswordChanged="PassTextBox_PasswordChanged"
         />
                 <Image 
-                    x:Name="image2" 
-                    HorizontalAlignment="Left" 
-                    Height="18" 
-                    VerticalAlignment="Top"
-                    Width="18" 
-                    Margin="0,4,0,0"
-                    Source="Resources/pass.png" 
+                        x:Name="image2" 
+                        HorizontalAlignment="Left" 
+                        Height="18" 
+                        VerticalAlignment="Bottom"
+                        Width="18" 
+                        Margin="-20,0,0,3"
+                        Source="Resources/pass.png" 
                 />
             </Grid>
-        </Grid>
-        <Grid 
-            x:Name="PassConfirm" 
-            Margin="60,370,0,335" 
-            HorizontalAlignment="Left">
-            <Label 
-                x:Name="label4" 
-                Content="Подтверждение пароля:"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-            />
-            <Grid Margin="0,20,0,0.4">
+            <Grid Margin="0,0,0,5">
                 <PasswordBox 
-                    x:Name="passConfirmText" 
-                    Style="{StaticResource MaterialDesignPasswordBox}"
-                    BorderBrush="#0078d7"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top" 
-                    Padding="25,0,0,0" 
-                    FontSize="18"
-                    Width="280"
-                    BorderThickness="0,0,0,1" 
-                    materialDesign:TextFieldAssist.UnderlineBrush="{Binding brush}"
-                    PasswordChanged="passConfirmText_PasswordChanged"
+                        x:Name="passConfirmText" 
+                        materialDesign:HintAssist.Hint="Подтверждение пароля"
+                        Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                        BorderBrush="#0078d7"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top" 
+                        Padding="0,0,0,0" 
+                        FontSize="18"
+                        Width="280"
+                        materialDesign:TextFieldAssist.UnderlineBrush="{Binding brush}"
+                        PasswordChanged="passConfirmText_PasswordChanged"
         />
                 <Image 
-                    x:Name="image3"
-                    HorizontalAlignment="Left"
-                    Height="18" 
-                    VerticalAlignment="Top"
-                    Width="18" 
-                    Source="Resources/pass.png"
-                    Margin="0,5,0,0"
+                        x:Name="image3"
+                        HorizontalAlignment="Left"
+                        Height="18" 
+                        VerticalAlignment="Bottom"
+                        Width="18" 
+                        Source="Resources/pass.png"
+                        Margin="-20,0,0,5"
         />
 
             </Grid>
-
-        </Grid>
-
-        <materialDesign:Chip 
-            x:Name="RegButton"
-            Content="Зарегистрироваться" 
-            HorizontalAlignment="Left" 
-            Margin="60,450,0,0" 
-            VerticalAlignment="Top"
-            Background="#0078d7"
-            Foreground="White" 
-            FontSize="18" 
-            Height="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Click="RegButton_Click">
-            <materialDesign:Chip.Effect>
-                <DropShadowEffect 
-                    Color="#FF0078D7" 
-                    Direction="310" 
-                    ShadowDepth="5" 
-                    Opacity="0.3"
-                />
-            </materialDesign:Chip.Effect>
-        </materialDesign:Chip>
-        <Grid x:Name="CodeConfirmGrid" Margin="57,530,57,104">
-            <Grid 
-                Margin="3,0,83,58.4"
-                x:Name="Code">
-
-                <Label
-                    x:Name="label5" 
-                    Content="Код:" 
-                    HorizontalAlignment="Left" 
-                    VerticalAlignment="Top" FontSize="18"
+            <Label 
+            x:Name="passCheck" 
+            Content="Пароли не совпадают"
+            Padding="0"
+            FontSize="10"
+            Foreground="Red" Visibility="Collapsed"
         />
-                <TextBox 
-                    x:Name="textBox5" 
-                    BorderBrush="#0078d7"
-                    HorizontalAlignment="Left" 
-                    Margin="0,25,0,0"
-                    TextWrapping="Wrap" 
-                    VerticalAlignment="Top" 
-                    Padding="0" 
-                    FontSize="24"
-                    Width="200"
-                    BorderThickness="0,0,0,1"
-                    ToolTip="Введите код, отправленный на электронную почту"
-                    Style="{StaticResource MaterialDesignTextBox}"
-        />
-            </Grid>
-            <Button 
-                x:Name="EndRegButton"
-                Content="Завершить регистрацию"
-                HorizontalAlignment="Center"
-                Margin="0,78,0,0"
-                VerticalAlignment="Top" 
-                Height="Auto" 
-                FontSize="22" Padding="15,3,15,5" Click="EndRegButton_Click">
-                <Button.Effect>
+
+            <materialDesign:Chip 
+                x:Name="RegButton"
+                Content="Зарегистрировать"
+                Background="#0078d7"
+                Foreground="White" 
+                FontSize="18" 
+                Height="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="0" Click="RegButton_Click" Margin="0,10,0,10">
+                <materialDesign:Chip.Effect>
                     <DropShadowEffect 
                         Color="#FF0078D7" 
                         Direction="310" 
                         ShadowDepth="5" 
                         Opacity="0.3"
                 />
-                </Button.Effect>
-            </Button>
-
-        </Grid>
+                </materialDesign:Chip.Effect>
+            </materialDesign:Chip>
+        </StackPanel>
 
         <Button 
             x:Name="Exit" 
@@ -276,17 +255,6 @@
                 />
             </Button.Effect>
         </Button>
-        <Label 
-            x:Name="passCheck" 
-            Content="Пароли не совпадают" 
-            HorizontalAlignment="Left" 
-            VerticalAlignment="Top"
-            Margin="60,415,0,0"
-            Padding="0"
-            FontSize="10"
-            Foreground="Red"
-            Visibility="Hidden"
-        />
 
     </Grid>
 </Window>

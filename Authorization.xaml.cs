@@ -34,15 +34,8 @@ namespace PassManager
         Data data = new Data();
         Crypt crypto = new Crypt();
 
-        private ThreadStart ts;
-        private Thread thread;
-
-        // Регистрация:
-        private void textBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Reg reg = new Reg();
-            reg.ShowDialog();
-        }
+        //private ThreadStart ts;
+        //private Thread thread;
 
         // Восстановление пароля:
         private void textBlockRecov_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -73,22 +66,24 @@ namespace PassManager
         // Проверка наличия пользователя:
         private void check_authentification()
         {
-            Data.userName = crypto.Encode(passBoxLog.Text, Crypt.key);
+            Data.userNick = crypto.Encode(passBoxLog.Text, Crypt.key);
             Data.userPass = crypto.Encode(passBoxPass.Password, Crypt.key);
 
             if (passBoxLog.Text.Contains('@'))
             {
-                Data.sqlcmd = $@"SELECT * 
-                                 FROM Users123 
-                                 WHERE BINARY email = '{Data.userName}' 
+                Data.sqlcmd = $@"SELECT `users`.`user_id`, `users`.`name`, `users`.`surname`, `users`.`patronymic`, `users`.`login`, `users`.`pass`, `position`.`position_name`
+                                 FROM users
+	                             LEFT JOIN `position` ON `users`.`id_position` = `position`.`id_position`
+                                 WHERE BINARY email = '{Data.userNick}' 
                                        AND BINARY pass = '{Data.userPass}';"
                 ;
             }
             else
             {
-                Data.sqlcmd = $@"SELECT * 
-                                 FROM Users123 
-                                 WHERE BINARY login = '{Data.userName}' 
+                Data.sqlcmd = $@"SELECT `users`.`user_id`, `users`.`name`, `users`.`surname`, `users`.`patronymic`, `users`.`login`, `users`.`pass`, `position`.`position_name`
+                                 FROM users
+	                             LEFT JOIN `position` ON `users`.`id_position` = `position`.`id_position`
+                                 WHERE BINARY login = '{Data.userNick}' 
                                        AND BINARY pass = '{Data.userPass}';"
                 ;
             }
@@ -101,37 +96,22 @@ namespace PassManager
                 {
                     Data.userId = Convert.ToInt32(Data.dt_user.Rows[0][0]);
                     Data.userName = crypto.Decode(Data.dt_user.Rows[0][1].ToString(), Crypt.key);
-                    Data.userPass = crypto.Decode(Data.dt_user.Rows[0][3].ToString(), Crypt.key);
+                    Data.userSurname = crypto.Decode(Data.dt_user.Rows[0][2].ToString(), Crypt.key);
+                    Data.userPatronymic = crypto.Decode(Data.dt_user.Rows[0][3].ToString(), Crypt.key);
+                    Data.userNick = crypto.Decode(Data.dt_user.Rows[0][4].ToString(), Crypt.key);
+                    Data.userPass = crypto.Decode(Data.dt_user.Rows[0][5].ToString(), Crypt.key);
+                    Data.userPosition = Convert.ToString(Data.dt_user.Rows[0][6]);
+
+                    Data.myInd = Data.userId;
+                    Data.myName = Data.userName;
+                    Data.mySurname = Data.userSurname;
+                    Data.myPatronymic = Data.userPatronymic;
 
                     Passes passes = new Passes();
                     this.Close();
+                    
                     passes.Show();
-
-                    /*
-                    Data.sqlcmd = $@"SELECT * 
-                                     FROM `Users` 
-                                     WHERE user_id = {Data.userId} AND `last_access` > NOW() - 60"
-                    ;
-                    Data.dt_user = data.Connect(Data.sqlcmd);
-
-                    if (Data.dt_user.Rows.Count < 1)
-                    {
-                        Data.sqlcmd = $@"UPDATE Users
-                                         SET last_access = NOW(),
-                                             online = 1
-                                         WHERE user_id = {Data.userId}"
-                        ;
-                        Data.dt_user = data.Connect(Data.sqlcmd);
-
-                        Passes passes = new Passes();
-                        this.Close();
-                        passes.Show();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Аккаунт используется");
-                    }
-                    */
+                    
                 }
                 else
                 {
@@ -147,7 +127,6 @@ namespace PassManager
             buttonEnter.Cursor = Cursors.Wait;
             passBoxLog.Cursor = Cursors.Wait;
             passBoxPass.Cursor = Cursors.Wait;
-            textBlock.Cursor = Cursors.Wait;
         }
 
         // Смена курсора мыши при работе:
@@ -157,16 +136,16 @@ namespace PassManager
             buttonEnter.Cursor = Cursors.Hand;
             passBoxLog.Cursor = Cursors.IBeam;
             passBoxPass.Cursor = Cursors.IBeam;
-            textBlock.Cursor = Cursors.Hand;
         }
 
         // Проверка интернет соединения:
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ts = new ThreadStart(Load);
+            /*ts = new ThreadStart(Load);
             thread = new Thread(ts);
 
-            thread.Start();
+            thread.Start();*/
+            Load();
             
         }
 
@@ -197,5 +176,11 @@ namespace PassManager
                 Environment.Exit(0);
             }
         }
+
+        /*private void button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Director dir = new Director();
+            dir.Show();
+        }*/
     }
 }

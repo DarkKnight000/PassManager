@@ -1,0 +1,205 @@
+﻿<Window x:Class="PassManager.Profile"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PassManager"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Профиль"
+        Height="600" 
+        Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+            <Grid Height="300" Width="400">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Label 
+                    x:Name="label"
+                    Content="Фамилия:"
+                    HorizontalAlignment="Right" 
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <Label 
+                    x:Name="label1"
+                    Content="Имя:"
+                    HorizontalAlignment="Right" 
+                    Grid.Column="0"
+                    Grid.Row="2"
+                    VerticalAlignment="Center"/>
+                <Label 
+                    x:Name="label2"
+                    Content="Отчество:"
+                    HorizontalAlignment="Right" 
+                    Grid.Column="0"
+                    Grid.Row="3"
+                    VerticalAlignment="Center"/>
+                <Label 
+                    x:Name="label3" 
+                    Content="Логин(Ник):"
+                    HorizontalAlignment="Right" 
+                    Grid.Column="0"
+                    Grid.Row="4"
+                    VerticalAlignment="Center"/>
+                <Label 
+                    x:Name="label4" 
+                    Content="Должность:"
+                    HorizontalAlignment="Right"
+                    Grid.Column="0"
+                    Grid.Row="5"
+                    VerticalAlignment="Center"/>
+                <Label 
+                    x:Name="label5" 
+                    Content="Email:" 
+                    HorizontalAlignment="Right" 
+                    Grid.Column="0"
+                    Grid.Row="6"
+                    VerticalAlignment="Center"/>
+
+                <TextBox
+                    x:Name="labelSurname" 
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Style="{StaticResource MaterialDesignTextBox}" 
+                    Padding="1,0,10,0"
+                    BorderBrush="#0078d7"
+                    HorizontalAlignment="Left"
+                    Margin="10,0,0,0" 
+                    VerticalAlignment="Center" 
+                    FontSize="14"/>
+                <TextBox
+                    x:Name="labelName" 
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Style="{StaticResource MaterialDesignTextBox}" 
+                    Padding="1,0,10,0"
+                    BorderBrush="#0078d7"
+                    HorizontalAlignment="Left"
+                    Margin="10,0,0,0" 
+                    VerticalAlignment="Center" 
+                    FontSize="14"/>
+                <TextBox
+                    x:Name="labelPatronymic" 
+                    Grid.Column="1"
+                    Grid.Row="3"
+                    Style="{StaticResource MaterialDesignTextBox}" 
+                    Padding="1,0,10,0"
+                    BorderBrush="#0078d7"
+                    HorizontalAlignment="Left"
+                    Margin="10,0,0,0" 
+                    VerticalAlignment="Center" 
+                    FontSize="14"/>
+                <TextBox
+                    x:Name="labelNick"
+                    IsEnabled="False"
+                    Grid.Column="1"
+                    Grid.Row="4"
+                    Style="{StaticResource MaterialDesignTextBox}" 
+                    Padding="1,0,10,0"
+                    BorderBrush="#0078d7" 
+                    HorizontalAlignment="Left"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center" 
+                    FontSize="14"/>
+                <TextBox
+                    x:Name="labelEmail" 
+                    Style="{StaticResource MaterialDesignTextBox}" 
+                    Padding="1,0,10,0"
+                    BorderBrush="#0078d7"  
+                    HorizontalAlignment="Left" 
+                    Margin="10,0,0,0" 
+                    Grid.Row="6" 
+                    VerticalAlignment="Center" 
+                    FontSize="14" Grid.Column="1"/>
+                <ComboBox 
+                    x:Name="comboBoxPosition"
+                    IsEnabled="False"
+                    Padding="1,0,10,0"
+                    BorderBrush="#0078d7"
+                    Grid.Column="1" 
+                    HorizontalAlignment="Left"
+                    Margin="10,0,0,0" 
+                    VerticalAlignment="Center" 
+                    FontSize="14" Grid.Row="5"/>
+            </Grid>
+            <Button 
+                x:Name="DataChangeButton" 
+                Content="Сохранить" 
+                Padding="0,0,0,0" 
+                FontSize="16" 
+                ClickMode="Press" Click="DataChangeButton_Click" VerticalAlignment="Top" Margin="0,5,0,20" HorizontalAlignment="Center" Width="100" Height="35">
+                <Button.Background>
+                    <LinearGradientBrush 
+                        EndPoint="0.5,1" 
+                        MappingMode="RelativeToBoundingBox" 
+                        StartPoint="0.5,0">
+                        <GradientStop 
+                            Color="#FF92C9F4" 
+                            Offset="1"
+                                />
+                        <GradientStop 
+                            Color="#FF2196F3"
+                                />
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <StackPanel x:Name="stackPanelStaff1"
+                Width="310" Margin="0,5,0,0" MaxHeight="205">
+                <StackPanel Orientation="Horizontal" MinHeight="175">
+                    <Label 
+                        x:Name="label6" 
+                        Content="Подчиненные:"
+                        FontSize="14"/>
+                    <ListBox 
+                        x:Name="listBox" 
+                        VerticalContentAlignment="Center" 
+                        MaxHeight="175" 
+                        SelectionMode="Multiple" Margin="0,0,0,5">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox 
+                                    Content="{Binding Name}" 
+                                    IsChecked="{Binding IsChecked}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+                <Button x:Name="buttonDelete" Content="Удалить" Click="buttonDelete_Click" Height="32" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel x:Name="stackPanelStaff2" Grid.Column="1" Margin="10,40,10,0" Orientation="Vertical" VerticalAlignment="Top">
+            <ListBox 
+                x:Name="listBox2" 
+                VerticalContentAlignment="Center" 
+                MaxHeight="500" 
+                SelectionMode="Multiple" VerticalAlignment="Top" HorizontalAlignment="Center">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button x:Name="button1" Content="Добавить" Click="button1_Click" VerticalAlignment="Top" Height="30" Width="100" Margin="0,5,0,20"/>
+
+
+        </StackPanel>
+
+
+    </Grid>
+</Window>

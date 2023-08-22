@@ -129,8 +129,8 @@
     <Compile Include="AccInfo.xaml.cs">
       <DependentUpon>AccInfo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AddCVC.xaml.cs">
-      <DependentUpon>AddCVC.xaml</DependentUpon>
+    <Compile Include="AddPosition.xaml.cs">
+      <DependentUpon>AddPosition.xaml</DependentUpon>
     </Compile>
     <Compile Include="CardInfo.xaml.cs">
       <DependentUpon>CardInfo.xaml</DependentUpon>
@@ -144,6 +144,9 @@
     <Compile Include="PassRecovery.xaml.cs">
       <DependentUpon>PassRecovery.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Profile.xaml.cs">
+      <DependentUpon>Profile.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Reg.xaml.cs">
       <DependentUpon>Reg.xaml</DependentUpon>
     </Compile>
@@ -154,7 +157,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AddCVC.xaml">
+    <Page Include="AddPosition.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -179,6 +182,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PassRecovery.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Profile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

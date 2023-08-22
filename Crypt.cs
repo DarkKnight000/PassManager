@@ -93,15 +93,26 @@ namespace PassManager
         }
 
         // Дешифровка таблицы:
-        public void Encrypt(int table, int kol)
+        public void Encrypt(DataTable table, int str, int kol)
         {
-            for (int i = 0; i < table; i++)
+            for (int i = 0; i < str; i++)
             {
-                for (int j = 1; j <= kol; j++)
+                for (int j = 2; j <= kol; j++)
+                {
+                    table.Rows[i][j] = Decode(table.Rows[i][j].ToString(), key);
+                }
+            }
+        }
+
+        /*public void Encrypt(int str, int kol)
+        {
+            for (int i = 0; i < str; i++)
+            {
+                for (int j = 2; j <= kol; j++)
                 {
                     Data.dt_user.Rows[i][j] = Decode(Data.dt_user.Rows[i][j].ToString(), key);
                 }
             }
-        }
+        }*/
     }
 }
